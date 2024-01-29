@@ -14,8 +14,7 @@ function getGoogleCredentials() {
   if (!clientSecret || clientSecret.length === 0) {
     throw new Error("Missing GOOGLE_CLIENT_SECRET")
   }
-  console.log(clientId)
-  console.log(clientSecret)
+
   return {
     clientId,
     clientSecret,
@@ -34,6 +33,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
+      checks: ["none"],
     }),
   ],
   callbacks: {
@@ -66,4 +66,5 @@ export const authOptions: NextAuthOptions = {
       return "/dashboard"
     },
   },
+  /* */
 }

@@ -26,7 +26,9 @@ const AddFriendForm: FC<AddFriendFormProps> = ({}) => {
 
   const addFriend = async (email: string) => {
     try {
-      const validatedEmail = addFriendValidator.parse({ email })
+      const validatedEmail = addFriendValidator.parse({
+        email,
+      })
 
       await axios.post("/api/friends/add", {
         email: validatedEmail,
@@ -36,10 +38,12 @@ const AddFriendForm: FC<AddFriendFormProps> = ({}) => {
     } catch (error) {
       if (error instanceof z.ZodError) {
         setError("email", { message: error.message })
+        return
       }
 
       if (error instanceof AxiosError) {
         setError("email", { message: error.response?.data })
+        return
       }
 
       setError("email", { message: "Something went wrong" })

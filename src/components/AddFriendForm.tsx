@@ -63,7 +63,6 @@ const AddFriendForm: FC<AddFriendFormProps> = ({}) => {
         className="block text-sm font-medium leading-6 text-gray-900">
         Add friend by E-Mail
       </label>
-
       <div className="mt-2 flex gap-4">
         <input
           {...register("email")}

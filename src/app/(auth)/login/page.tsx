@@ -31,7 +31,6 @@ const Page: FC<pageProps> = ({}) => {
               Sign in to your account
             </h1>
           </div>
-
           <Button
             isLoading={isLoading}
             type="button"

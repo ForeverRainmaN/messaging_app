@@ -1,8 +1,8 @@
-import { fetchRedis } from "@/helpers/redis"
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter"
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { db } from "./db"
+import { fetchRedis } from "@/helpers/redis"
 
 function getGoogleCredentials() {
   const clientId = process.env.GOOGLE_CLIENT_ID

@@ -1,14 +1,16 @@
 "use client"
 
+import { usePusherClient } from "@/hooks/usePusherClient"
 import { cn } from "@/lib/utils"
 import { Message } from "@/lib/validations/message"
 import { format } from "date-fns"
 import Image from "next/image"
-import { FC, useRef, useState } from "react"
+import { FC, useCallback, useRef, useState } from "react"
 
 interface MessagesProps {
   initialMessages: Message[]
   sessionId: string
+  chatId: string
   sessionImg: string | null | undefined
   chatPartner: User
 }
@@ -16,11 +18,18 @@ interface MessagesProps {
 const Messages: FC<MessagesProps> = ({
   initialMessages,
   sessionId,
+  chatId,
   chatPartner,
   sessionImg,
 }) => {
   const scrollDownRef = useRef<HTMLDivElement | null>(null)
   const [messages, setMessages] = useState<Message[]>(initialMessages)
+
+  const memoizedHandler = useCallback((message: Message) => {
+    setMessages((prev) => [message, ...prev])
+  }, [])
+
+  usePusherClient(`chat:${chatId}`, "incoming_message", memoizedHandler)
 
   const formatTimestamp = (timestamp: number) => format(timestamp, "HH:mm a")
   return (

@@ -1,12 +1,20 @@
 "use client"
 
+import { usePusherClient } from "@/hooks/usePusherClient"
 import { chatHrefConstructor } from "@/lib/utils"
 import { usePathname, useRouter } from "next/navigation"
-import { FC, useEffect, useState } from "react"
+import { FC, useCallback, useEffect, useState } from "react"
+import toast from "react-hot-toast"
+import UnseenChatToast from "./UnseenChatToast"
 
 interface SidebarChatListProps {
   friends: User[]
   sessionId: string
+}
+
+interface ExtendedMessage extends Message {
+  senderImg: string
+  senderName: string
 }
 
 const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
@@ -21,6 +29,38 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
       })
     }
   }, [pathname])
+
+  const newFriendHandler = useCallback(() => {
+    router.refresh()
+  }, [router])
+
+  const chatHandler = useCallback(
+    (message: ExtendedMessage) => {
+      const shouldNotify =
+        pathname !==
+        `/dashboard/chat/${chatHrefConstructor(sessionId, message.senderId)}`
+
+      if (!shouldNotify) return
+
+      toast.custom((t) => (
+        <UnseenChatToast
+          t={t}
+          sessionId={sessionId}
+          senderId={message.senderId}
+          senderImg={message.senderImg}
+          senderMessage={message.text}
+          senderName={message.senderName}
+        />
+      ))
+
+      setUnseenMessages((prev) => [...prev, message])
+    },
+    [pathname, sessionId]
+  )
+
+  usePusherClient(`user:${sessionId}:chats`, "incoming_message", chatHandler)
+  usePusherClient(`user:${sessionId}:friends`, "new_friend", newFriendHandler)
+
   return (
     <ul
       role="list"

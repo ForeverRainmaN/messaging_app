@@ -22,8 +22,9 @@ const FriendRequestSidebarOptions: FC<FriendRequestSidebarOptionsProps> = ({
     setUnseenRequestCount((prev) => prev + 1)
   }, [])
 
-  usePusherClient<"user">(
+  usePusherClient(
     `user:${sessionId}:incoming_friend_requests`,
+    "incoming_friend_requests",
     memoizedHandler
   )
 

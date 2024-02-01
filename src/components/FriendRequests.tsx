@@ -27,8 +27,9 @@ const FriendRequests: FC<FriendRequestsProps> = ({
     []
   )
 
-  usePusherClient<"user">(
+  usePusherClient(
     `user:${sessionId}:incoming_friend_requests`,
+    "incoming_friend_requests",
     memoizedHandler
   )
 

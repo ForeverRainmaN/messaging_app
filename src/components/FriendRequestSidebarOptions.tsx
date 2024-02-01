@@ -1,8 +1,10 @@
 "use client"
 
+import { usePusherClient } from "@/hooks/usePusherClient"
+import { pusherClient } from "@/lib/pusher"
 import { UserIcon } from "lucide-react"
 import Link from "next/link"
-import { FC, useState } from "react"
+import { FC, useCallback, useState } from "react"
 
 interface FriendRequestSidebarOptionsProps {
   initialUnseenRequestCount: number
@@ -16,6 +18,17 @@ const FriendRequestSidebarOptions: FC<FriendRequestSidebarOptionsProps> = ({
   const [unseenRequestCount, setUnseenRequestCount] = useState<number>(
     initialUnseenRequestCount
   )
+
+  const memoizedHandler = useCallback(() => {
+    setUnseenRequestCount((prev) => prev + 1)
+  }, [])
+
+  usePusherClient<IncomingFriendRequest>(
+    sessionId,
+    "incoming_friend_requests",
+    memoizedHandler
+  )
+
   return (
     <Link
       href="/dashboard/requests"

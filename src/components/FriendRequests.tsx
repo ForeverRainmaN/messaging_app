@@ -1,9 +1,10 @@
 "use client"
 
+import { usePusherClient } from "@/hooks/usePusherClient"
 import axios from "axios"
 import { Check, UserPlus, X } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { FC, useState } from "react"
+import { FC, useCallback, useState } from "react"
 
 interface FriendRequestsProps {
   incomingFriendRequests: IncomingFriendRequest[]
@@ -17,6 +18,19 @@ const FriendRequests: FC<FriendRequestsProps> = ({
   const router = useRouter()
   const [friendRequests, setFriendRequests] = useState<IncomingFriendRequest[]>(
     incomingFriendRequests
+  )
+
+  const memoizedHandler = useCallback(
+    ({ senderId, senderEmail }: IncomingFriendRequest) => {
+      setFriendRequests((prev) => [...prev, { senderId, senderEmail }])
+    },
+    []
+  )
+
+  usePusherClient<IncomingFriendRequest>(
+    sessionId,
+    "incoming_friend_requests",
+    memoizedHandler
   )
 
   const acceptFriend = async (senderId: string) => {

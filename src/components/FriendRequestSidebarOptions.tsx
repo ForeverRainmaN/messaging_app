@@ -1,7 +1,6 @@
 "use client"
 
 import { usePusherClient } from "@/hooks/usePusherClient"
-import { pusherClient } from "@/lib/pusher"
 import { UserIcon } from "lucide-react"
 import Link from "next/link"
 import { FC, useCallback, useState } from "react"
@@ -23,9 +22,8 @@ const FriendRequestSidebarOptions: FC<FriendRequestSidebarOptionsProps> = ({
     setUnseenRequestCount((prev) => prev + 1)
   }, [])
 
-  usePusherClient<IncomingFriendRequest>(
-    sessionId,
-    "incoming_friend_requests",
+  usePusherClient<"user">(
+    `user:${sessionId}:incoming_friend_requests`,
     memoizedHandler
   )
 

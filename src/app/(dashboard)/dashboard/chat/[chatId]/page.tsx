@@ -33,7 +33,7 @@ async function getChatMessages(chatId: string) {
   } catch (error) {}
 }
 
-const page = async ({ params: { chatId } }: PageProps) => {
+const Page = async ({ params: { chatId } }: PageProps) => {
   const session = await getServerSession(authOptions)
 
   if (!session) notFound()
@@ -52,16 +52,14 @@ const page = async ({ params: { chatId } }: PageProps) => {
     <div className="flex-1 justify-between flex flex-col h-full max-h-[calc(100vh-1rem)]">
       <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
         <div className="relative flex items-center space-x-4">
-          <div className="relative">
-            <div className="relative w-8 sm:w-12 h-8 sm:h-12">
-              <Image
-                fill
-                referrerPolicy="no-referrer"
-                src={chatPartner.image}
-                alt={`${chatPartner} profile picture`}
-                className="rounded-full"
-              />
-            </div>
+          <div className="relative w-8 sm:w-12 h-8 sm:h-12">
+            <Image
+              fill
+              referrerPolicy="no-referrer"
+              src={chatPartner.image}
+              alt={`${chatPartner} profile picture`}
+              className="rounded-full"
+            />
           </div>
 
           <div className="flex flex-col leading-tight">
@@ -89,4 +87,4 @@ const page = async ({ params: { chatId } }: PageProps) => {
   )
 }
 
-export default page
+export default Page

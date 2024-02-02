@@ -58,7 +58,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
     [pathname, sessionId]
   )
 
-  usePusherClient(`user:${sessionId}:chats`, "incoming_message", chatHandler)
+  usePusherClient(`user:${sessionId}:chats`, "new_message", chatHandler)
   usePusherClient(`user:${sessionId}:friends`, "new_friend", newFriendHandler)
 
   return (

@@ -1,38 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Realtime Chat App
 
-## Getting Started
+![Application layout](Application.png)
 
-First, run the development server:
+This README.md provides information on the project, the way to setup it on your machine as well as some of my ideas on how to improve the app. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+## Overview
+This is a serverless realtime chat application created with Next.js v13.2.4 and Typescript. I used Upstash Redis to store my data and Pusher to achieve
+live realtime state updates.
+
+## Quickstart
+Your project root contains .env.example file that you can use to create your .env file.
+
+Upstash: go to [https://upstash.com](https://upstash.com) and create your own Redis database instance to get UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN.
+
+Google: At this point the App only supports google auth, so you need to get GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.
+
+Go to [https://console.cloud.google.com](https://console.cloud.google.com), create a new project and obtain the data required. There are a lot of guides on how to do that out there in the internet, for example you can use this youtube video: [starting from 7:00](https://youtu.be/AbUVY16P4Ys?si=pzYgIXNE0_5VnBZ6)
+
+Pusher: [https://pusher.com/](https://pusher.com/), sign in and get your credentials there.
+
+Run:
+
 ```
+yarn install
+```
+to install all of the dependencies, and then:
+```
+yarn dev
+```
+to start dev server.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Run:
+```
+yarn build
+```
+to build the application
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Possible improvements
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Login with username and password
+- Login with other providers(Github etc)
+- Adding tests?
+- Remove friend from friend list after addition
+- Block user(wherein not removing him from friend list)
+- Better error handling (possibly monads); also extracting some error handling into a sep. function would
+most likely be a good idea
+- Add emotions
+- Extending the app with calls, recordings, video-calls.

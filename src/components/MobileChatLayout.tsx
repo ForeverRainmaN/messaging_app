@@ -1,5 +1,6 @@
 "use client"
 
+import { SidebarOption } from "@/types/typings"
 import { Dialog, Transition } from "@headlessui/react"
 import { Menu, X } from "lucide-react"
 import { Session } from "next-auth"
